@@ -1,5 +1,6 @@
 import cytoscape from 'cytoscape';
 import dagre from 'cytoscape-dagre';
+import { parseRegexToNFA, convertNFAToDFA, minimizeDFA, type AutomataData } from './regexParser';
 
 // Register the dagre layout
 cytoscape.use(dagre);
@@ -9,12 +10,18 @@ export function createAutomataGraph(
   regex: string, 
   type: 'regex' | 'nfa' | 'dfa' | 'min-dfa'
 ) {
-  // Mock automata data - in a real implementation, this would be generated from the regex
-  const automataData = generateMockAutomata(regex, type);
+  // Generate actual automata data based on the regex and type
+  const automataData = generateAutomataFromRegex(regex, type);
+
+  // Convert to cytoscape format
+  const elements = [
+    ...automataData.nodes.map(node => ({ data: node })),
+    ...automataData.edges.map(edge => ({ data: edge }))
+  ];
 
   const cy = cytoscape({
     container,
-    elements: automataData,
+    elements,
     style: [
       {
         selector: 'node',
@@ -96,45 +103,22 @@ export function createAutomataGraph(
   return cy;
 }
 
-function generateMockAutomata(regex: string, type: string) {
-  // This is a simplified mock - real implementation would parse the regex
-  const baseNodes = [
-    { data: { id: 'q0', label: 'q0', type: 'start' } },
-    { data: { id: 'q1', label: 'q1' } },
-    { data: { id: 'q2', label: 'q2', type: 'accept' } },
-  ];
-
-  const baseEdges = [
-    { data: { id: 'e1', source: 'q0', target: 'q1', label: 'a' } },
-    { data: { id: 'e2', source: 'q1', target: 'q2', label: 'b' } },
-  ];
-
-  // Add complexity based on type
+function generateAutomataFromRegex(regex: string, type: string): AutomataData {
+  // Start with NFA generation from regex
+  const nfa = parseRegexToNFA(regex);
+  
   switch (type) {
     case 'nfa':
-      return [
-        ...baseNodes,
-        { data: { id: 'q3', label: 'q3' } },
-        ...baseEdges,
-        { data: { id: 'e3', source: 'q0', target: 'q0', label: 'a' } },
-        { data: { id: 'e4', source: 'q1', target: 'q3', label: 'ε', type: 'epsilon' } },
-      ];
+      return nfa;
     
     case 'dfa':
-      return [
-        ...baseNodes,
-        ...baseEdges,
-        { data: { id: 'e3', source: 'q0', target: 'q0', label: 'a' } },
-      ];
+      return convertNFAToDFA(nfa);
     
     case 'min-dfa':
-      return [
-        { data: { id: 'q0', label: 'q0', type: 'start' } },
-        { data: { id: 'q1', label: 'q1', type: 'accept' } },
-        { data: { id: 'e1', source: 'q0', target: 'q1', label: 'a*b' } },
-      ];
+      const dfa = convertNFAToDFA(nfa);
+      return minimizeDFA(dfa);
     
     default:
-      return [...baseNodes, ...baseEdges];
+      return nfa;
   }
 }

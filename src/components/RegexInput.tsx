@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Code, CheckCircle, AlertCircle, Lightbulb } from 'lucide-react';
 
@@ -9,16 +9,22 @@ interface RegexInputProps {
 
 const examples = [
   { pattern: 'a*', description: 'Zero or more a' },
+  { pattern: 'a+', description: 'One or more a' },
   { pattern: '(a|b)*', description: 'Any sequence of a or b' },
+  { pattern: 'a*b', description: 'Zero+ a followed by b' },
   { pattern: 'a+b*c?', description: 'One+ a, zero+ b, optional c' },
   { pattern: '(ab|cd)*', description: 'Alternating ab or cd' },
+  { pattern: 'ab', description: 'Simple sequence ab' },
 ];
 
 export function RegexInput({ regex, onChange }: RegexInputProps) {
   const [isValid, setIsValid] = useState(true);
   const [showExamples, setShowExamples] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const validateRegex = (pattern: string) => {
+    if (!pattern.trim()) return false;
+    
     try {
       new RegExp(pattern);
       return true;
@@ -30,6 +36,20 @@ export function RegexInput({ regex, onChange }: RegexInputProps) {
   const handleChange = (value: string) => {
     onChange(value);
     setIsValid(validateRegex(value));
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && isValid && regex.trim()) {
+      // Trigger a small visual feedback
+      if (inputRef.current) {
+        inputRef.current.classList.add('ring-2', 'ring-green-500/50');
+        setTimeout(() => {
+          if (inputRef.current) {
+            inputRef.current.classList.remove('ring-2', 'ring-green-500/50');
+          }
+        }, 200);
+      }
+    }
   };
 
   return (
@@ -48,9 +68,11 @@ export function RegexInput({ regex, onChange }: RegexInputProps) {
       {/* Input Field */}
       <div className="relative mb-4">
         <input
+          ref={inputRef}
           type="text"
           value={regex}
           onChange={(e) => handleChange(e.target.value)}
+          onKeyPress={handleKeyPress}
           placeholder="Enter regex pattern..."
           className={`
             w-full px-4 py-3 rounded-lg bg-white/10 border-2 transition-all duration-200
@@ -125,6 +147,13 @@ export function RegexInput({ regex, onChange }: RegexInputProps) {
           ))}
         </motion.div>
       )}
+
+      {/* Instructions */}
+      <div className="mt-4 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
+        <p className="text-blue-300 text-sm">
+          💡 <strong>Tip:</strong> Press Enter or click examples to update the visualization instantly!
+        </p>
+      </div>
     </motion.div>
   );
 }

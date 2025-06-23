@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, Table, Download, ZoomIn } from 'lucide-react';
+import { Eye, Download, ZoomIn } from 'lucide-react';
 import { createAutomataGraph } from '../utils/automataGraph';
+import { parseRegexToNFA, convertNFAToDFA, minimizeDFA } from '../utils/regexParser';
 
 interface AutomataVisualizerProps {
   regex: string;
@@ -28,13 +29,13 @@ export function AutomataVisualizer({ regex, type }: AutomataVisualizerProps) {
         cyRef.current.destroy();
       }
     };
-  }, [regex, type]);
+  }, [regex, type]); // This ensures re-render when regex or type changes
 
   const handleExportPNG = () => {
     if (cyRef.current) {
       const png = cyRef.current.png({ scale: 2, full: true });
       const link = document.createElement('a');
-      link.download = `${type}-${regex}.png`;
+      link.download = `${type}-${regex.replace(/[^a-zA-Z0-9]/g, '_')}.png`;
       link.href = png;
       link.click();
     }
@@ -46,11 +47,53 @@ export function AutomataVisualizer({ regex, type }: AutomataVisualizerProps) {
     }
   };
 
+  // Calculate actual state and transition counts
+  const getStateCount = () => {
+    if (!regex) return 0;
+    
+    try {
+      const nfa = parseRegexToNFA(regex);
+      switch (type) {
+        case 'nfa':
+          return nfa.nodes.length;
+        case 'dfa':
+          return convertNFAToDFA(nfa).nodes.length;
+        case 'min-dfa':
+          return minimizeDFA(convertNFAToDFA(nfa)).nodes.length;
+        default:
+          return nfa.nodes.length;
+      }
+    } catch {
+      return 0;
+    }
+  };
+
+  const getTransitionCount = () => {
+    if (!regex) return 0;
+    
+    try {
+      const nfa = parseRegexToNFA(regex);
+      switch (type) {
+        case 'nfa':
+          return nfa.edges.length;
+        case 'dfa':
+          return convertNFAToDFA(nfa).edges.length;
+        case 'min-dfa':
+          return minimizeDFA(convertNFAToDFA(nfa)).edges.length;
+        default:
+          return nfa.edges.length;
+      }
+    } catch {
+      return 0;
+    }
+  };
+
   return (
     <motion.div
       className="h-full min-h-[600px] rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 overflow-hidden"
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
+      key={`${regex}-${type}`} // Force re-mount when regex or type changes
     >
       {/* Header */}
       <div className="p-4 border-b border-white/10">
@@ -112,11 +155,11 @@ export function AutomataVisualizer({ regex, type }: AutomataVisualizerProps) {
             <div className="flex items-center space-x-4">
               <span className="text-slate-300">
                 <span className="text-white font-medium">States:</span> 
-                {getStateCount(type)}
+                {getStateCount()}
               </span>
               <span className="text-slate-300">
                 <span className="text-white font-medium">Transitions:</span> 
-                {getTransitionCount(type)}
+                {getTransitionCount()}
               </span>
             </div>
             <div className="flex items-center space-x-2">
@@ -130,24 +173,4 @@ export function AutomataVisualizer({ regex, type }: AutomataVisualizerProps) {
       </div>
     </motion.div>
   );
-}
-
-function getStateCount(type: string): number {
-  // Mock data - in real implementation, this would come from the automata
-  switch (type) {
-    case 'nfa': return 6;
-    case 'dfa': return 4;
-    case 'min-dfa': return 3;
-    default: return 0;
-  }
-}
-
-function getTransitionCount(type: string): number {
-  // Mock data - in real implementation, this would come from the automata
-  switch (type) {
-    case 'nfa': return 8;
-    case 'dfa': return 6;
-    case 'min-dfa': return 5;
-    default: return 0;
-  }
 }
