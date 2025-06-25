@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Play, Users, Clock, BookOpen } from 'lucide-react';
+import { Play, Users, Clock, BookOpen, ExternalLink } from 'lucide-react';
 
-export function ExportSection() {
+export function PlaylistSection() {
   const [isLoading, setIsLoading] = useState(true);
 
   const handleIframeLoad = () => {
@@ -66,7 +66,7 @@ export function ExportSection() {
           >
             <div className="text-center">
               <motion.div
-                className="w-16 h-16 border-4 border-blue-500/30 border-t-blue-500 rounded-full mx-auto mb-4"
+                className="w-16 h-16 border-4 border-red-500/30 border-t-red-500 rounded-full mx-auto mb-4"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
               />
@@ -114,6 +114,26 @@ export function ExportSection() {
             </div>
           </div>
         </motion.div>
+
+        {/* External Link Button */}
+        <motion.div
+          className="absolute top-4 right-4"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: isLoading ? 0 : 1, scale: isLoading ? 0.8 : 1 }}
+          transition={{ delay: 0.7 }}
+        >
+          <motion.a
+            href="https://youtube.com/playlist?list=PLbRMhDVUMngcwWkzVTm_kFH6JW4JCtAUM&si=zTmC_ooWSNzpaPHs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center space-x-2 px-3 py-2 bg-red-600/80 hover:bg-red-600 text-white text-sm font-medium rounded-lg backdrop-blur-sm transition-all duration-200"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ExternalLink className="w-4 h-4" />
+            <span>Open in YouTube</span>
+          </motion.a>
+        </motion.div>
       </motion.div>
 
       {/* Features Grid */}
@@ -134,8 +154,8 @@ export function ExportSection() {
               transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
               whileHover={{ scale: 1.02, y: -2 }}
             >
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-3 mb-4">
-                <Icon className="w-6 h-6 text-blue-400" />
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-red-500/20 to-pink-500/20 p-3 mb-4">
+                <Icon className="w-6 h-6 text-red-400" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
               <p className="text-slate-300 text-sm leading-relaxed">{feature.description}</p>
@@ -146,7 +166,7 @@ export function ExportSection() {
 
       {/* Learning Path */}
       <motion.div
-        className="p-8 rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-white/10"
+        className="p-8 rounded-xl bg-gradient-to-br from-red-500/10 to-pink-500/10 backdrop-blur-sm border border-white/10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
@@ -209,7 +229,7 @@ export function ExportSection() {
           {['Build', 'Simulate', 'Optimize'].map((section, index) => (
             <motion.span
               key={section}
-              className="px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 text-sm font-medium border border-blue-500/30"
+              className="px-4 py-2 rounded-full bg-gradient-to-r from-red-500/20 to-pink-500/20 text-red-300 text-sm font-medium border border-red-500/30"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.9 + index * 0.1 }}

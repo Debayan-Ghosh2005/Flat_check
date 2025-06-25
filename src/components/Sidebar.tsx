@@ -5,7 +5,8 @@ import {
   Wrench, 
   Play, 
   Zap, 
-  Download,
+  PlayCircle,
+  User,
   GitBranch
 } from 'lucide-react';
 import type { Section } from '../App';
@@ -20,7 +21,8 @@ const sections = [
   { id: 'build' as Section, icon: Wrench, label: 'Build', color: 'text-green-400' },
   { id: 'simulate' as Section, icon: Play, label: 'Simulate', color: 'text-purple-400' },
   { id: 'optimize' as Section, icon: Zap, label: 'Optimize', color: 'text-yellow-400' },
-  { id: 'export' as Section, icon: Download, label: 'Export', color: 'text-pink-400' },
+  { id: 'playlist' as Section, icon: PlayCircle, label: 'Playlist', color: 'text-red-400' },
+  { id: 'profile' as Section, icon: User, label: 'Profile', color: 'text-pink-400' },
 ];
 
 export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {

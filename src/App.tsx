@@ -5,11 +5,12 @@ import { LearnSection } from './components/LearnSection';
 import { BuildSection } from './components/BuildSection';
 import { SimulateSection } from './components/SimulateSection';
 import { OptimizeSection } from './components/OptimizeSection';
-import { ExportSection } from './components/ExportSection';
+import { PlaylistSection } from './components/PlaylistSection';
+import { ProfileSection } from './components/ProfileSection';
 import { DarkModeToggle } from './components/DarkModeToggle';
 import { useDarkMode } from './hooks/useDarkMode';
 
-export type Section = 'learn' | 'build' | 'simulate' | 'optimize' | 'export';
+export type Section = 'learn' | 'build' | 'simulate' | 'optimize' | 'playlist' | 'profile';
 
 function App() {
   const [activeSection, setActiveSection] = useState<Section>('learn');
@@ -25,8 +26,10 @@ function App() {
         return <SimulateSection />;
       case 'optimize':
         return <OptimizeSection />;
-      case 'export':
-        return <ExportSection />;
+      case 'playlist':
+        return <PlaylistSection />;
+      case 'profile':
+        return <ProfileSection />;
       default:
         return <LearnSection />;
     }
@@ -47,7 +50,7 @@ function App() {
         <div className="flex">
           <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
           
-          <main className="flex-1 ml-20 p-8">
+          <main className="flex-1 ml-20 p-8 pb-20">
             <div className="max-w-7xl mx-auto">
               {/* Header */}
               <motion.div
@@ -78,6 +81,20 @@ function App() {
             </div>
           </main>
         </div>
+
+        {/* Author Credit */}
+        <motion.div
+          className="fixed bottom-0 left-0 right-0 z-30 bg-black/20 backdrop-blur-sm border-t border-white/10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+        >
+          <div className="text-center py-4">
+            <p className="text-slate-300 text-sm font-medium">
+              Made by <span className="text-white font-semibold">Debayan Ghosh</span> <span className="text-red-400">❤️</span>
+            </p>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
