@@ -2,8 +2,6 @@ Folder PATH listing for volume New Volume
 Volume serial number is 10F9-5226
 D:\DEBAYAN\FLAT
 +---.bolt
-+---dist
-|   \---assets
 +---node_modules
 |   +---.bin
 |   +---.vite

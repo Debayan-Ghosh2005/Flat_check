@@ -50,7 +50,7 @@ function App() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.02%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%221%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
-        
+
         {/* Dark Mode Toggle */}
         <div className="absolute top-4 right-4 z-50 md:top-6 md:right-6">
           <DarkModeToggle isDark={isDark} onToggle={() => setIsDark(!isDark)} />
@@ -76,7 +76,7 @@ function App() {
         </div>
 
         {/* Mobile Sidebar */}
-        <MobileSidebar 
+        <MobileSidebar
           isOpen={isMobileSidebarOpen}
           onClose={() => setIsMobileSidebarOpen(false)}
           activeSection={activeSection}
@@ -113,23 +113,16 @@ function App() {
                   {renderSection()}
                 </motion.div>
               </AnimatePresence>
+
+              {/* Footer */}
+              <div className="text-center py-6 mt-12 border-t border-white/10">
+                <p className="text-slate-300 text-xs md:text-sm font-medium">
+                  Made by <span className="text-white font-semibold">Debayan Ghosh</span> <span className="text-red-400">❤️</span>
+                </p>
+              </div>
             </div>
           </main>
         </div>
-
-        {/* Author Credit - Fixed Bottom */}
-        <motion.div
-          className="fixed bottom-0 left-0 right-0 z-30 bg-black/30 backdrop-blur-md border-t border-white/10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
-        >
-          <div className="text-center py-3 md:py-4">
-            <p className="text-slate-300 text-xs md:text-sm font-medium">
-              Made by <span className="text-white font-semibold">Debayan Ghosh</span> <span className="text-red-400">❤️</span>
-            </p>
-          </div>
-        </motion.div>
       </div>
     </div>
   );
