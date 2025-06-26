@@ -7,7 +7,8 @@ import {
   Zap, 
   PlayCircle,
   User,
-  GitBranch
+  GitBranch,
+  HelpCircle
 } from 'lucide-react';
 import type { Section } from '../App';
 
@@ -22,6 +23,7 @@ const sections = [
   { id: 'simulate' as Section, icon: Play, label: 'Simulate', color: 'text-purple-400' },
   { id: 'optimize' as Section, icon: Zap, label: 'Optimize', color: 'text-yellow-400' },
   { id: 'playlist' as Section, icon: PlayCircle, label: 'Playlist', color: 'text-red-400' },
+  { id: 'qa' as Section, icon: HelpCircle, label: 'Q&A', color: 'text-cyan-400' },
   { id: 'profile' as Section, icon: User, label: 'Profile', color: 'text-pink-400' },
 ];
 

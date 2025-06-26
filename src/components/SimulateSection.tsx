@@ -98,27 +98,27 @@ export function SimulateSection() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Header */}
       <motion.div
         className="text-center"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <h2 className="text-2xl font-bold text-white mb-2">String Simulation</h2>
-        <p className="text-slate-300">
+        <h2 className="text-xl md:text-2xl font-bold text-white mb-2">String Simulation</h2>
+        <p className="text-slate-300 text-sm md:text-base">
           Step through automata execution with input strings
         </p>
       </motion.div>
 
       {/* Input Controls */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         <motion.div
-          className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+          className="p-4 md:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
         >
-          <h3 className="text-lg font-semibold text-white mb-4">Configuration</h3>
+          <h3 className="text-base md:text-lg font-semibold text-white mb-4">Configuration</h3>
           
           <div className="space-y-4">
             <div>
@@ -129,7 +129,7 @@ export function SimulateSection() {
                 type="text"
                 value={regex}
                 onChange={(e) => setRegex(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white font-mono text-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                className="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg bg-white/10 border border-white/20 text-white font-mono text-sm md:text-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                 placeholder="Enter regex pattern..."
               />
             </div>
@@ -142,7 +142,7 @@ export function SimulateSection() {
                 type="text"
                 value={inputString}
                 onChange={(e) => setInputString(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white font-mono text-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                className="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg bg-white/10 border border-white/20 text-white font-mono text-sm md:text-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                 placeholder="Enter test string..."
               />
             </div>
@@ -154,7 +154,7 @@ export function SimulateSection() {
               <select
                 value={automataType}
                 onChange={(e) => setAutomataType(e.target.value as 'nfa' | 'dfa')}
-                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                className="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
               >
                 <option value="dfa">DFA (Deterministic)</option>
                 <option value="nfa">NFA (Non-deterministic)</option>
@@ -162,12 +162,12 @@ export function SimulateSection() {
             </div>
           </div>
           
-          <div className="flex items-center space-x-3 mt-6">
+          <div className="flex flex-wrap items-center gap-2 md:gap-3 mt-6">
             <motion.button
               onClick={handleStartPause}
               disabled={steps.length === 0}
               className={`
-                flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-200
+                flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm
                 ${isSimulating 
                   ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30' 
                   : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
@@ -177,28 +177,28 @@ export function SimulateSection() {
               whileHover={{ scale: steps.length > 0 ? 1.05 : 1 }}
               whileTap={{ scale: steps.length > 0 ? 0.95 : 1 }}
             >
-              {isSimulating ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+              {isSimulating ? <Pause className="w-3 h-3 md:w-4 md:h-4" /> : <Play className="w-3 h-3 md:w-4 md:h-4" />}
               <span>{isSimulating ? 'Pause' : 'Start'}</span>
             </motion.button>
             
             <motion.button
               onClick={handleStepForward}
               disabled={currentStep >= steps.length}
-              className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               whileHover={{ scale: currentStep < steps.length ? 1.05 : 1 }}
               whileTap={{ scale: currentStep < steps.length ? 0.95 : 1 }}
             >
-              <FastForward className="w-4 h-4" />
+              <FastForward className="w-3 h-3 md:w-4 md:h-4" />
               <span>Step</span>
             </motion.button>
             
             <motion.button
               onClick={handleReset}
-              className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-white/10 text-slate-300 hover:bg-white/20 font-medium"
+              className="flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg bg-white/10 text-slate-300 hover:bg-white/20 font-medium text-sm"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <RotateCcw className="w-4 h-4" />
+              <RotateCcw className="w-3 h-3 md:w-4 md:h-4" />
               <span>Reset</span>
             </motion.button>
           </div>
@@ -220,27 +220,27 @@ export function SimulateSection() {
         </motion.div>
 
         <motion.div
-          className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+          className="p-4 md:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
         >
-          <h3 className="text-lg font-semibold text-white mb-4">Current State</h3>
+          <h3 className="text-base md:text-lg font-semibold text-white mb-4">Current State</h3>
           <div className="text-center">
             <div className={`
-              w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-all duration-300
+              w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-all duration-300
               ${currentStep >= steps.length 
                 ? (isAccepted ? 'bg-gradient-to-br from-green-500 to-emerald-500' : 'bg-gradient-to-br from-red-500 to-pink-500')
                 : 'bg-gradient-to-br from-blue-500 to-purple-500'
               }
             `}>
-              <span className="text-white font-bold text-xl">{getCurrentState()}</span>
+              <span className="text-white font-bold text-lg md:text-xl">{getCurrentState()}</span>
             </div>
-            <p className="text-slate-300 mb-2">
+            <p className="text-slate-300 mb-2 text-sm md:text-base">
               Reading: <span className="text-yellow-400 font-mono font-bold">
                 {getCurrentSymbol()}
               </span>
             </p>
-            <p className="text-slate-300 mb-4">
+            <p className="text-slate-300 mb-4 text-sm md:text-base">
               Step: {currentStep} / {steps.length}
             </p>
             
@@ -249,11 +249,11 @@ export function SimulateSection() {
               {currentStep >= steps.length && (
                 <>
                   {isAccepted ? (
-                    <CheckCircle className="w-5 h-5 text-green-400" />
+                    <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
                   ) : (
-                    <XCircle className="w-5 h-5 text-red-400" />
+                    <XCircle className="w-4 h-4 md:w-5 md:h-5 text-red-400" />
                   )}
-                  <span className={`font-semibold ${isAccepted ? 'text-green-400' : 'text-red-400'}`}>
+                  <span className={`font-semibold text-sm md:text-base ${isAccepted ? 'text-green-400' : 'text-red-400'}`}>
                     {getSimulationStatus()}
                   </span>
                 </>
@@ -265,27 +265,27 @@ export function SimulateSection() {
 
       {/* Step Trace */}
       <motion.div
-        className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+        className="p-4 md:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        <h3 className="text-lg font-semibold text-white mb-4">Execution Trace</h3>
+        <h3 className="text-base md:text-lg font-semibold text-white mb-4">Execution Trace</h3>
         
         {steps.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-slate-400">Enter a regex and test string to see the simulation trace</p>
+            <p className="text-slate-400 text-sm md:text-base">Enter a regex and test string to see the simulation trace</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/20">
-                  <th className="text-left py-3 px-4 text-slate-300 font-medium">Step</th>
-                  <th className="text-left py-3 px-4 text-slate-300 font-medium">Current State</th>
-                  <th className="text-left py-3 px-4 text-slate-300 font-medium">Input Symbol</th>
-                  <th className="text-left py-3 px-4 text-slate-300 font-medium">Next State</th>
-                  <th className="text-left py-3 px-4 text-slate-300 font-medium">Action</th>
+                  <th className="text-left py-2 md:py-3 px-2 md:px-4 text-slate-300 font-medium text-xs md:text-sm">Step</th>
+                  <th className="text-left py-2 md:py-3 px-2 md:px-4 text-slate-300 font-medium text-xs md:text-sm">Current State</th>
+                  <th className="text-left py-2 md:py-3 px-2 md:px-4 text-slate-300 font-medium text-xs md:text-sm">Input Symbol</th>
+                  <th className="text-left py-2 md:py-3 px-2 md:px-4 text-slate-300 font-medium text-xs md:text-sm">Next State</th>
+                  <th className="text-left py-2 md:py-3 px-2 md:px-4 text-slate-300 font-medium text-xs md:text-sm">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -301,23 +301,23 @@ export function SimulateSection() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <td className="py-3 px-4 text-white font-medium">{index + 1}</td>
-                    <td className="py-3 px-4">
-                      <span className="px-2 py-1 rounded bg-blue-500/20 text-blue-400 font-mono">
+                    <td className="py-2 md:py-3 px-2 md:px-4 text-white font-medium text-xs md:text-sm">{index + 1}</td>
+                    <td className="py-2 md:py-3 px-2 md:px-4">
+                      <span className="px-2 py-1 rounded bg-blue-500/20 text-blue-400 font-mono text-xs">
                         {step.currentState}
                       </span>
                     </td>
-                    <td className="py-3 px-4">
-                      <span className="px-2 py-1 rounded bg-yellow-500/20 text-yellow-400 font-mono">
+                    <td className="py-2 md:py-3 px-2 md:px-4">
+                      <span className="px-2 py-1 rounded bg-yellow-500/20 text-yellow-400 font-mono text-xs">
                         {step.inputSymbol}
                       </span>
                     </td>
-                    <td className="py-3 px-4">
-                      <span className="px-2 py-1 rounded bg-purple-500/20 text-purple-400 font-mono">
+                    <td className="py-2 md:py-3 px-2 md:px-4">
+                      <span className="px-2 py-1 rounded bg-purple-500/20 text-purple-400 font-mono text-xs">
                         {step.nextState}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-slate-300">{step.action}</td>
+                    <td className="py-2 md:py-3 px-2 md:px-4 text-slate-300 text-xs md:text-sm">{step.action}</td>
                   </motion.tr>
                 ))}
                 
@@ -328,21 +328,21 @@ export function SimulateSection() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                   >
-                    <td className="py-3 px-4 text-white font-medium">Final</td>
-                    <td className="py-3 px-4">
-                      <span className={`px-2 py-1 rounded font-mono ${
+                    <td className="py-2 md:py-3 px-2 md:px-4 text-white font-medium text-xs md:text-sm">Final</td>
+                    <td className="py-2 md:py-3 px-2 md:px-4">
+                      <span className={`px-2 py-1 rounded font-mono text-xs ${
                         isAccepted ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
                       }`}>
                         {getCurrentState()}
                       </span>
                     </td>
-                    <td className="py-3 px-4">
-                      <span className="px-2 py-1 rounded bg-gray-500/20 text-gray-400 font-mono">
+                    <td className="py-2 md:py-3 px-2 md:px-4">
+                      <span className="px-2 py-1 rounded bg-gray-500/20 text-gray-400 font-mono text-xs">
                         End
                       </span>
                     </td>
-                    <td className="py-3 px-4">-</td>
-                    <td className={`py-3 px-4 font-semibold ${isAccepted ? 'text-green-400' : 'text-red-400'}`}>
+                    <td className="py-2 md:py-3 px-2 md:px-4">-</td>
+                    <td className={`py-2 md:py-3 px-2 md:px-4 font-semibold text-xs md:text-sm ${isAccepted ? 'text-green-400' : 'text-red-400'}`}>
                       {isAccepted ? 'Accept' : 'Reject'}
                     </td>
                   </motion.tr>

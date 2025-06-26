@@ -90,23 +90,23 @@ export function AutomataVisualizer({ regex, type }: AutomataVisualizerProps) {
 
   return (
     <motion.div
-      className="h-full min-h-[600px] rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 overflow-hidden"
+      className="h-full min-h-[400px] md:min-h-[600px] rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 overflow-hidden"
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       key={`${regex}-${type}`} // Force re-mount when regex or type changes
     >
       {/* Header */}
-      <div className="p-4 border-b border-white/10">
-        <div className="flex items-center justify-between">
+      <div className="p-3 md:p-4 border-b border-white/10">
+        <div className="flex flex-col md:flex-row md:items-center justify-between space-y-2 md:space-y-0">
           <div className="flex items-center space-x-3">
             <div className="p-2 rounded-lg bg-purple-500/20">
-              <Eye className="w-5 h-5 text-purple-400" />
+              <Eye className="w-4 h-4 md:w-5 md:h-5 text-purple-400" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-white">
+              <h3 className="text-base md:text-lg font-semibold text-white">
                 {type.toUpperCase()} Visualization
               </h3>
-              <p className="text-sm text-slate-300">
+              <p className="text-xs md:text-sm text-slate-300">
                 Pattern: <code className="text-green-400 font-mono">{regex}</code>
               </p>
             </div>
@@ -120,7 +120,7 @@ export function AutomataVisualizer({ regex, type }: AutomataVisualizerProps) {
               whileTap={{ scale: 0.95 }}
               title="Fit to view"
             >
-              <ZoomIn className="w-4 h-4 text-slate-300" />
+              <ZoomIn className="w-3 h-3 md:w-4 md:h-4 text-slate-300" />
             </motion.button>
             
             <motion.button
@@ -130,7 +130,7 @@ export function AutomataVisualizer({ regex, type }: AutomataVisualizerProps) {
               whileTap={{ scale: 0.95 }}
               title="Export as PNG"
             >
-              <Download className="w-4 h-4 text-slate-300" />
+              <Download className="w-3 h-3 md:w-4 md:h-4 text-slate-300" />
             </motion.button>
           </div>
         </div>
@@ -139,20 +139,20 @@ export function AutomataVisualizer({ regex, type }: AutomataVisualizerProps) {
       {/* Graph Container */}
       <div 
         ref={containerRef} 
-        className="w-full h-full min-h-[500px] bg-gradient-to-br from-slate-900/50 to-purple-900/50"
-        style={{ minHeight: '500px' }}
+        className="w-full h-full min-h-[350px] md:min-h-[500px] bg-gradient-to-br from-slate-900/50 to-purple-900/50"
+        style={{ minHeight: '350px' }}
       />
 
       {/* Info Panel */}
       <div className="absolute bottom-4 left-4 right-4">
         <motion.div
-          className="p-3 rounded-lg bg-black/30 backdrop-blur-sm border border-white/10"
+          className="p-2 md:p-3 rounded-lg bg-black/30 backdrop-blur-sm border border-white/10"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between text-xs md:text-sm space-y-2 md:space-y-0">
+            <div className="flex items-center space-x-3 md:space-x-4">
               <span className="text-slate-300">
                 <span className="text-white font-medium">States:</span> 
                 {getStateCount()}
@@ -163,9 +163,9 @@ export function AutomataVisualizer({ regex, type }: AutomataVisualizerProps) {
               </span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 rounded-full bg-green-400"></div>
+              <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-green-400"></div>
               <span className="text-slate-300 text-xs">Start State</span>
-              <div className="w-3 h-3 rounded-full bg-red-400 ml-4"></div>
+              <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-red-400 ml-2 md:ml-4"></div>
               <span className="text-slate-300 text-xs">Accept State</span>
             </div>
           </div>
